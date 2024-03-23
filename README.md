@@ -15,3 +15,17 @@ The BTC Mini Dashboard web application offers several features to users for trac
 4. Currency Converter: Enables users to convert a specified amount of Bitcoin into different fiat currencies (USD, INR, AED) based on the current exchange rates. It also calculates the converted amount, providing users with the flexibility to assess their holdings in various fiat currencies.
 
 5. Live Cryptocurrency Returns: Users can view live cryptocurrency returns for different time intervals (7 days, 1 month, 6 months, and 1 year), allowing them to track the performance of various cryptocurrencies over specific periods.
+
+## Dependencies
+
+- Python Flask: Flask Server works in backend
+
+- Binance API: Utilized for retrieving cryptocurrency data.
+
+- MongoDB: Used as the database to store cryptocurrency data fetched from the Binance API.
+
+- Coin Gecko API: Rendering the Top 10 crypto currency.
+
+- Trading View Lightweight Charts Library: The Lightweight Charts library is used for rendering the candlestick chart. 
+
+- Font Awesome and SVG Icons: Font Awesome and SVG icons are utilized for displaying cryptocurrency symbols.
