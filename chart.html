@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <title>BTC Mini Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+  <style>
+    body {
+      background-color: #2b2b2b;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+    }
+
+    h2 {
+      color: #ffffff;
+    }
+
+    .chart-container {
+      display: flex;
+      height: 300px;
+    }
+
+    #tvchart {
+      background-color: #212121;
+      margin-bottom: 20px;
+      width: 600px;
+    }
+
+    #portfolio-container {
+      width: 300px;
+      margin-left: 20px;
+      background-color: #212121;
+      border-radius: 5px;
+      height: 300px;
+    }
+
+    h3 {
+      margin: 10px 0;
+    }
+
+    input[type="number"],
+    button {
+      background-color: #333333;
+      color: #ffffff;
+      border: none;
+      padding: 5px 10px;
+      margin-right: 10px;
+      margin-top: 5px;
+    }
+
+    button {
+      background-color: #d9e40e;
+      color: #000000;
+      border: none;
+      padding: 10px 20px;
+      margin-right: 10px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+      margin-left: 95px;
+      margin-top: 15px;
+      margin-bottom: 12px;
+      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    }
+
+    #returnInfo,
+    #crypto_calculator {
+      display: inline-block;
+      vertical-align: top;
+      width: 658px;
+
+      background-color: #212121;
+      border-radius: 5px;
+
+    }
+
+    #returnInfo {
+      background-color: #212121;
+      padding: 10px;
+      padding-top: 1px;
+      border-radius: 5px;
+      margin-top: 20px;
+      width: 200px;
+      padding-left: 50px;
+    }
+
+    #returnInfo h3 {
+      margin: 5px 0;
+    }
+
+    #returnInfo span {
+      color: #ffcc00;
+    }
+
+    #closePrice{
+      background-color: #212121;
+      width : 280px;
+      border-radius: 5px;
+      margin-top: 50px;
+      padding-top: 5px;
+      padding-left: 5px;
+      height: 30px;
+      margin-bottom: 0px;
+    }
+
+    #portfolioHeader {
+  color: #ffffff;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-left: 19px;
+}
+
+#buyPrice{
+  margin-left: 55px;
+}
+
+#quantity{
+  margin-left: 55px;
+}
+
+#ReturnHeader{
+  color: #ffffff;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-left: 10px;
+
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+th {
+    background-color: #212121;
+}
+
+td{
+  background-color: #212121;
+}
+
+
+.logo {
+    width: 30px;
+    height: 30px;
+}
+
+#cryptoTable{
+  margin-left: 25px;
+}
+
+#crypto_calculator {
+      margin-top: 20px;
+      height: 195px;
+    }
+
+    .converter-inputs {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.converter-inputs label {
+    margin-right: 10px;
+}
+
+.converter-inputs input[type="number"],
+.converter-inputs select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.converter-inputs select {
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+button {
+    background-color: #d9e40e;
+    color: #000000;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #c4d714;
+}
+
+#convertedAmount {
+    margin-top: 10px;
+    margin-left: 180px;
+    font-weight: bold;
+    color: #dafa08;
+
+}
+
+#convertButton{
+  background-color: #d9e40e;
+    color: #000000;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    cursor: pointer;
+    margin-left: 20px;
+
+}
+
+#amountlabel{
+  margin-left: 80px;
+}
+
+/* #btcAmount {
+  margin-left: 40px;
+} */
+
+  </style>
+</head>
+<body>
+  <h1><i class="fab fa-bitcoin" style="font-size:50px;color:rgb(255, 230, 0)"></i>   Bitcoin <span style="font-size: 18px; "> (BTC)</span></h1>
+
+  <h3 id="closePrice">Latest Price: $0</h3>
+  <div class="chart-container">
+
+    <div id="tvchart"></div>
+
+    <div id="portfolio-container">
+      <h1 id="portfolioHeader">Portfolio Tracker</h1>
+
+      <input type="number" id="buyPrice" placeholder="Enter Buy Price">
+      <input type="number" id="quantity" placeholder="Enter Quantity">
+
+      <button onclick="calculateProfitOrLoss()">Calculate</button>
+      <h3 id="investment"></h3>
+      <h3 id="currentValue"></h3>
+      <h3 id="profitLoss"></h3>
+    </div>
+
+    <div>
+      <table id="cryptoTable">
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Logo</th>
+                <th>Symbol</th>
+                <th>Price $</th>
+                <th>Market Cap $</th>
+                <th>Change (24h)</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <script>
+        fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=false')
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.querySelector('#cryptoTable tbody');
+                data.forEach(crypto => {
+                    const row = document.createElement('tr');
+                    const logoCell = document.createElement('td');
+                    const logo = document.createElement('img');
+                    logo.src = crypto.image;
+                    logo.alt = crypto.name;
+                    logo.classList.add('logo');
+                    logoCell.appendChild(logo);
+                    row.innerHTML = `
+                        <td>${crypto.market_cap_rank}</td>
+                        <td>${logoCell.innerHTML}</td>
+                        <td>${crypto.symbol.toUpperCase()}</td>
+                        <td>${crypto.current_price.toFixed(2)}</td>
+                        <td>${crypto.market_cap}</td>
+                        <td>${crypto.price_change_percentage_24h.toFixed(2)}%</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    </script>
+
+
+    </div>
+
+  </div>
+
+  <div id="returnInfo">
+    <h1 id="ReturnHeader">Returns</h1>
+    <h3>7 Days : <span id="sevenDaysReturn">0.00%</span></h3>
+    <h3>1 Month : <span id="oneMonthReturn">0.00%</span></h3>
+    <h3>6 Months : <span id="sixMonthsReturn">0.00%</span></h3>
+    <h3>1 Year : <span id="oneYearReturn">0.00%</span></h3>
+</div>
+
+
+<div id="crypto_calculator">
+  <h1 id="ReturnHeader">Bitcoin Converter & Calculator</h1>
+  <div class="converter-inputs">
+      <label id="amountlabel"for="btcAmount">Amount (BTC):</label>
+      <input type="number" id="btcAmount" placeholder="Enter BTC Amount">
+      <select id="targetCurrency">
+          <option value="usd">USD</option>
+          <option value="inr">INR</option>
+          <option value="aed">AED</option>
+      </select>
+      <button id = "convertButton" onclick="convertBTC()">Convert</button>
+  </div>
+
+  <p id="convertedAmount"></p>
+</div>
+
+
+
+  <script>
+    const log = console.log;
+
+    const chartProperties = {
+      width: 600,
+      height: 300,
+      timeScale: {
+        timeVisible: true,
+        secondsVisible: false,
+      },
+      layout: {
+        background: { color: '#222' },
+        textColor: '#DDD',
+      },
+      grid: {
+        vertLines: { color: '#444' },
+        horzLines: { color: '#444' },
+      },
+    };
+
+    const domElement = document.getElementById('tvchart');
+    const chart = LightweightCharts.createChart(domElement, chartProperties);
+    const candleSeries = chart.addCandlestickSeries();
+
+    fetch(`http://localhost:8000/api/candle_data`)
+      .then(res => res.json())
+      .then(data => {
+        const cdata = data.map(d => {
+          return {
+            time: d[0] / 1000,
+            open: parseFloat(d[1]),
+            high: parseFloat(d[2]),
+            low: parseFloat(d[3]),
+            close: parseFloat(d[4])
+          }
+        });
+        candleSeries.setData(cdata);
+
+        const closePrice = cdata[cdata.length - 1].close;
+        const YesterdayclosePrice = cdata[cdata.length - 2].close;
+        const dailychangepercent = ((closePrice - YesterdayclosePrice) / YesterdayclosePrice) * 100;
+
+        // Determine the icon and its color based on the change percentage
+        let iconClass = dailychangepercent >= 0 ? 'fa-caret-up' : 'fa-caret-down';
+        let iconColor = dailychangepercent >= 0 ? 'lime' : 'red';
+
+        // Set the text content for close price
+        document.getElementById('closePrice').innerHTML = `Latest Price: $ ${closePrice} <i class="fas ${iconClass}" style="color: ${iconColor}; margin-right: 5px;"></i><span style="font-size: 14px; color: ${iconColor};">${dailychangepercent.toFixed(2)}%</span>`;
+
+        // Set the close price value for profit/loss calculation
+        document.getElementById('closePrice').setAttribute('data-close-price', closePrice);
+
+        calculateReturns(cdata);
+      })
+      .catch(err => log(err));
+
+      function calculateProfitOrLoss() {
+          const buyPrice = parseFloat(document.getElementById('buyPrice').value);
+          const quantity = parseFloat(document.getElementById('quantity').value);
+          const closePrice = parseFloat(document.getElementById('closePrice').getAttribute('data-close-price'));
+
+          if (isNaN(buyPrice) || isNaN(closePrice) || isNaN(quantity)) {
+            document.getElementById('profitLoss').innerText = 'Please enter valid buy price and quantity';
+            document.getElementById('profitLoss').style.color = '#ffffff'; // Reset color
+          } else {
+            const totalInvestment = buyPrice * quantity;
+            const currentValue = closePrice * quantity;
+            const profitLoss = currentValue - totalInvestment;
+            const percentChange = (profitLoss / totalInvestment) * 100;
+
+
+            document.getElementById('profitLoss').innerHTML = `P&L: <span id="profitValue">$ ${profitLoss.toFixed(2)} (${percentChange.toFixed(5)}%)</span>`;
+
+            if (profitLoss > 0) {
+              document.getElementById('profitValue').style.color = 'lime';
+            } else if (profitLoss < 0) {
+              document.getElementById('profitValue').style.color = 'red';
+            } else {
+              document.getElementById('profitValue').style.color = '#ffffff';
+            }
+
+            document.getElementById('investment').innerText = `Total Investment: $ ${totalInvestment.toFixed(2)}`;
+            document.getElementById('currentValue').innerText = `Current Value: $ ${currentValue.toFixed(2)}`;
+          }
+        }
+
+
+    // Function to calculate 7 days and 1 month returns
+    function calculateReturns(data) {
+        const latestDate = new Date(data[data.length - 1].time * 1000);
+        const sevenDaysAgo = new Date(latestDate);
+        sevenDaysAgo.setDate(latestDate.getDate() - 7);
+        const oneMonthAgo = new Date(latestDate);
+        oneMonthAgo.setMonth(latestDate.getMonth() - 1);
+        const sixMonthsAgo = new Date(latestDate);
+        sixMonthsAgo.setMonth(latestDate.getMonth() - 6);
+        const oneYearAgo = new Date(latestDate);
+        oneYearAgo.setFullYear(latestDate.getFullYear() - 1);
+
+        const sevenDaysData = data.filter(d => new Date(d.time * 1000) >= sevenDaysAgo);
+        const oneMonthData = data.filter(d => new Date(d.time * 1000) >= oneMonthAgo);
+        const sixMonthsData = data.filter(d => new Date(d.time * 1000) >= sixMonthsAgo);
+        const oneYearData = data.filter(d => new Date(d.time * 1000) >= oneYearAgo);
+
+        const closePriceLatest = data[data.length - 1].close;
+        const closePriceSevenDaysAgo = sevenDaysData[0].close;
+        const closePriceOneMonthAgo = oneMonthData[0].close;
+        const closePriceSixMonthsAgo = sixMonthsData[0].close;
+        const closePriceOneYearAgo = oneYearData[0].close;
+
+        const sevenDaysReturn = ((closePriceLatest - closePriceSevenDaysAgo) / closePriceSevenDaysAgo) * 100;
+        const oneMonthReturn = ((closePriceLatest - closePriceOneMonthAgo) / closePriceOneMonthAgo) * 100;
+        const sixMonthsReturn = ((closePriceLatest - closePriceSixMonthsAgo) / closePriceSixMonthsAgo) * 100;
+        const oneYearReturn = ((closePriceLatest - closePriceOneYearAgo) / closePriceOneYearAgo) * 100;
+
+        // Change color based on return
+        const sevenDaysReturnElement = document.getElementById('sevenDaysReturn');
+        sevenDaysReturnElement.innerText = `${sevenDaysReturn.toFixed(2)}%`;
+        sevenDaysReturnElement.style.color = sevenDaysReturn >= 0 ? 'lime' : 'red';
+
+        const oneMonthReturnElement = document.getElementById('oneMonthReturn');
+        oneMonthReturnElement.innerText = `${oneMonthReturn.toFixed(2)}%`;
+        oneMonthReturnElement.style.color = oneMonthReturn >= 0 ? 'lime' : 'red';
+
+        const sixMonthsReturnElement = document.getElementById('sixMonthsReturn');
+        sixMonthsReturnElement.innerText = `${sixMonthsReturn.toFixed(2)}%`;
+        sixMonthsReturnElement.style.color = sixMonthsReturn >= 0 ? 'lime' : 'red';
+
+        const oneYearReturnElement = document.getElementById('oneYearReturn');
+        oneYearReturnElement.innerText = `${oneYearReturn.toFixed(2)}%`;
+        oneYearReturnElement.style.color = oneYearReturn >= 0 ? 'lime' : 'red';
+    }
+
+
+    function convertBTC() {
+        const btcAmount = parseFloat(document.getElementById('btcAmount').value);
+        const targetCurrency = document.getElementById('targetCurrency').value;
+        const btcToUsdRate = 64029; // 1 BTC = 64029 USD
+        let exchangeRate;
+
+        // Determine exchange rate based on selected currency
+        switch (targetCurrency) {
+            case 'usd':
+                exchangeRate = 1;
+                break;
+            case 'inr':
+                exchangeRate = 83; // 1 USD = 83 INR
+                break;
+            case 'aed':
+                exchangeRate = 3.65; // 1 USD = 3.65 AED
+                break;
+            default:
+                exchangeRate = 1; // Default to USD
+        }
+
+        // Calculate converted amount
+        const convertedAmount = btcAmount * btcToUsdRate * exchangeRate;
+
+        // Display converted amount
+        document.getElementById('convertedAmount').innerText = `Converted Amount: ${convertedAmount.toFixed(2)} ${targetCurrency.toUpperCase()}`;
+    }
+
+  </script>
+</body>
+</html>
