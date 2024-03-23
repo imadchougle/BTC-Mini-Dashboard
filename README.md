@@ -29,3 +29,17 @@ The BTC Mini Dashboard web application offers several features to users for trac
 - Trading View Lightweight Charts Library: The Lightweight Charts library is used for rendering the candlestick chart. 
 
 - Font Awesome and SVG Icons: Font Awesome and SVG icons are utilized for displaying cryptocurrency symbols.
+
+## How to Run this project
+
+- First, Install MongoDB and then make the connection using cli or the Compass
+  
+- Create database called 'btc_database' in the db and then create collection called 'candle_data'
+  
+- Run the populate_database python script, this will populate your collection with 1000 documents.
+  
+- Start the Flask Server
+  
+- redirect to http://localhost:8000/
+  
+- You are good to go 
