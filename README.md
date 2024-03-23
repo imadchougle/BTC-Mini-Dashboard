@@ -4,7 +4,7 @@
 
 ## Introduction
 
-The BTC Mini Dashboard web application offers several features to users for tracking cryptocurrency data and managing their investments:
+The BTC Mini Dashboard web application offers several features to users for tracking BTC data and Tracking their investments:
 
 1. Real-Time Candlestick Chart Visualization: Utilizes data from the Binance API to populate daily candlestick data, which is then stored in MongoDB. The application fetches this data from MongoDB and renders it into a candlestick chart using a charting library. Users can analyze market trends, patterns, and sentiments based on the graphical representation of price movements.
 
